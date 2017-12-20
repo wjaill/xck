@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/lib/animate.css">
+</head>
+<style>
+  .good-box{
+    display: flex;
+  }
+  .good-box .info{
+    display: flex;flex-flow: column;justify-content: center;
+    /* height: 200px; */
+  }
+
+  h4 a{
+    display:inline-block;margin: 0 10px;
+  }
+</style>
+<body>
+   
+    <%- include('./header.ejs') %>
+
+
+    <div class="container">
+      <h4 class="text-right"><a href="/">返回首页</a><a href="/list">列表</a><a href="/car">购物车</a></h4>
+      <div class="good-box goods">
+        <img class="animated image" src="<%= good.imgurl%>" alt="">
+        <div class="info">
+
+          <h3><%= good.name%></h3>
+          <p>类别：<%= good.keyword%></p>
+          <p>价格：<span class="price">￥<%= good.price %></span> 人气：<%= good.hot%></p>
+          <p>
+            <button onclick="reduce()" class="reduce btn btn-primary">-</button>
+            <button class="num btn btn-default">1</button>
+            <button onclick="add()" class="add btn btn-primary">+</button>
+            <button data-id="<%= good._id %>" class="add-btn btn btn-danger">加入购物车</button>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+      
+    
+    <script src="/lib/jquery.js"></script>
+    <script src="/lib/jquery-cookie.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/javascripts/car.js"></script>
+    <script>
+         let num = 1
+         function add(){
+           num++;$(".num").html(num)
+          }
+         function reduce(){
+           num--;$(".num").html(num)
+          }
+
+        $(".add-btn").click(function () {
+            var user_info = $.cookie("user_info")?JSON.parse($.cookie("user_info")):{}
+            if(user_info.uid){//登陆验证成功后传入用户id和商品id
+                car.addGood({uid:user_info.uid,goodid:$(this).data('id'),num},function(results){
+                    let $img = $('.image')                   
+                    $img.removeClass("jello")
+                    setTimeout(function () {
+                        $img.addClass("jello")
+                    },100)
+
+                })
+            }else{
+                alert('请登陆后操作')
+                window.location.href="/login"
+            } 
+        })
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,111 @@
+<p class="text-info">商品列表： <button   ng-click="isModalShow = true"  class="btn btn-primary">添加商品</button></p>
+
+<style>
+    .goods-box{
+        width: 80%;margin: 0 auto;
+        height:500px;
+        overflow-y: scroll;
+    }
+    .good-box{
+        display: flex;align-items: center;justify-content: space-between;
+    }
+    .good-box div{
+        display: flex;align-items: center;
+    }
+</style>
+
+<div class="goods-box">
+
+    <ul class="list-group">
+        <li class="list-group-item good-box" ng-repeat="good in goods">
+            <div>
+                <img width="100" height="100" ng-src="{{good.imgurl}}" alt="">
+                <p> name: <span class="label label-primary">{{good.name}}</span></p>;
+                <p> keywords: <span class="label label-primary">{{good.keyword}}</span></p>;
+                <p> price: <span class="label label-primary">{{good.price}}</span></p>
+            </div>
+            <div>
+                <button ng-click="updateShow(good._id)" class="btn btn-info pull-right">编辑</button>
+                <button ng-click="removeGood(good._id,$index)" class="btn btn-danger pull-right">删除</button>
+            </div>
+            
+        </li>
+    </ul>
+
+</div>
+
+<style>
+    .modal{
+        display: block;
+    }
+</style>
+
+<!-- 编辑商品 -->
+<div class="modal" ng-controller="updateController" ng-show="isUpdateShow.flag">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button  ng-click="isUpdateShow.flag=false"   type="button" class="close"><span>&times;</span></button>
+            <h4 class="modal-title">编辑商品</h4>
+        </div>
+        <div class="modal-body">
+            <label for="">name</label>
+            <input ng-model="nowgood.name" type="text" class="form-control">
+            <label for="">imgurl:</label>
+            <img style="width:100px" ng-src="{{nowgood.imgurl}}" alt="">
+            <input class="uploadinp_update" type="file">
+            <label  for="">keywords:</label>
+            <input ng-model="nowgood.keyword" type="text" class="form-control">
+            <label for="">price:</label>
+            <input  ng-model="nowgood.price" type="number" class="form-control">
+            <label for="">hot:</label>
+            <input  ng-model="nowgood.hot" type="number" class="form-control">
+            <label for="">class:</label>
+            <p>
+                <button ng-click="nowgood.classid=_class.classid" ng-repeat="_class in data.classes" ng-class="_class.classid==nowgood.classid?'btn-primary':'btn-default'" style="margin-right:10px;"class="btn ">{{_class.class}}</button>
+                
+                <input ng-model="newclass" type="text"> <button ng-click="addClasses()" class="btn-btn-success">+</button>   
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button  ng-click="isUpdateShow.flag=false" type="button" class="btn btn-default">Close</button>
+            <button  ng-click="update()" type="button" class="btn btn-primary">更新</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- 上传商品 -->
+<div class="modal" ng-show="isModalShow">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button  ng-click="isModalShow = false"   type="button" class="close"><span>&times;</span></button>
+            <h4 class="modal-title">上传商品</h4>
+        </div>
+        <div class="modal-body">
+            <label for="">name</label>
+            <input ng-model="newgood.name" type="text" class="form-control">
+            <label for="">imgurl:</label>
+            <input class="uploadinp_add" type="file">
+            <label for="">keywords:</label>
+            <input ng-model="newgood.keyword" type="text" class="form-control">
+            <label for="">price:</label>
+            <input ng-model="newgood.price" type="number" class="form-control">
+            <label for="">hot:</label>
+            <input ng-model="newgood.hot" type="number" class="form-control">
+            <label for="">class:</label>
+            <p>
+                <button ng-class="newgood.classid==_class.classid?'btn-primary':btn-default"  ng-click="newgood.classid=_class.classid" style="margin-right:10px;" ng-repeat="_class in classes" class="btn">{{_class.class}}</button>
+                
+                <input ng-model="newclass" type="text"> <button ng-click="addClasses()" class="btn-btn-success">+</button>   
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button  ng-click="isModalShow = false" type="button" class="btn btn-default">Close</button>
+            <button ng-click="addGood()"  type="button" class="btn btn-primary">上传</button>
+        </div>
+        </div>
+    </div>
+</div>
+

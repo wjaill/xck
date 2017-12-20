@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/lib/animate.css">
+    <link rel="stylesheet" href="/lib/toast/jqueryToast/css/toast.style.min.css">
+</head>
+<body>
+    <%- include('./footer.ejs') %>
+    <%- include('./header.ejs') %>
+
+
+    <div class="container banner">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+       
+        <ol class="carousel-indicators">
+            <% banners.forEach((item,i)=>{ %>
+              <li data-target="#carousel-example-generic" class="<%= i==0?'active':'' %>" data-slide-to="<%= i %>"></li>
+            <% }) %>        
+        </ol>
+      
+        <div class="carousel-inner" role="listbox">
+          <% banners.forEach((item,i)=>{ %>
+            <div style="height:300px;overflow:hidden;" class="item <%= i==0?'active':'' %>">
+              <img width="100%" src="<%= item.imgurl %>" title="<%= item.title %>" alt="...">          
+            </div>
+          <% }) %>
+          
+
+        </div>
+      
+      </div>
+    </div>
+
+    <div style="margin-top:20px;" class="container goods">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <% classes.forEach((item,i)=>{ %>
+              <button data-id="<%= item.classid %>" class=" type-btn btn btn-<%= i==0?'primary':'info'%>"><%= item.class%></button>
+            <% }) %>
+              <a class="pull-right" href="/list">查看更多</a>
+              <a class="pull-right" href="/car">购物车</a>
+        </div>  
+        <div class="panel-body">
+          <div class="row">
+
+            <!-- xs:0-768 sm:768-992 md:992-1200 lg:1200-- -->
+
+            <% goods.forEach((item,i)=>{ %>
+              <div class="col-xs-12 col-sm-6 col-md-3">
+                  <div class="thumbnail">
+                    <img class="animated" src="<%= item.imgurl%>" title="<%= item.name %>" >
+                    <div class="caption">
+                      <h3><a href="/detail?id=<%= item._id %>"><%= item.name %></a></h3>
+                      <p>￥：<%= item.price %> 人气：<%= item.hot %></p>
+                      <p>
+                        <button data-id="<%= item._id%>" class="add-btn btn btn-danger" >加入购物车</button> 
+                      </p>
+                    </div>
+                  </div>
+                </div>
+            <% }) %>
+            
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
+    <script src="/lib/jquery.js"></script>
+    <script src="/lib/jquery-cookie.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/javascripts/car.js"></script>
+    <script>
+        car.init()
+      </script>
+    <script src="/javascripts/index.js"></script>
+    <script src="/lib/socket.io.js"></script>
+    <script src="/lib/toast/jqueryToast/js/toast.script.js"></script>
+    <script>
+      // var wsc = io.connect('ws://10.9.166.93:3000');
+      var wsc = io.connect('ws://127.0.0.1:3000');
+
+      wsc.on('connect' ,function (e) {//当客户端连接上的时候就会触发
+        console.log('我已经连接上服务端了')
+      });
+
+      wsc.on('message' ,function (info) {//当服务端返回消息的时候触发
+             console.log(info);
+            if(info.type==1){
+              setTimeout(function(){
+                $.Toast('新商品上架', '有你喜爱的...上架啦，<a href="/detail?id='+info.goodid+'">快去查看</a>', 'success',{
+                    stack: true,
+                    has_icon:true,
+                    has_close_btn:true,
+                    fullscreen:false,
+                    timeout:10000,
+                    sticky:false,
+                    has_progress:true,
+                    rtl:false,
+                });
+              },3000)
+               
+            }   
+            
+      });
+
+    </script>
+</body>
+</html>
+
+
+

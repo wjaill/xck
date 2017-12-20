@@ -1,0 +1,36 @@
+<div class="nav" ng-controller="navController">
+        <div class="panel-group" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a ng-click="isShow='model'">
+                      数据管理
+                    </a>
+                </h4>
+                </div>
+                <div >
+                <div class="panel-body">
+                   <ul class="list-group" ng-show="isShow=='model'">
+                        <li class="list-group-item"><a href="#/banner">banner</a></li>
+                   </ul>
+                </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a ng-click="isShow='goods'">
+                   商品管理
+                    </a>
+                </h4>
+                </div>
+                <div id="collapseTwo">
+                <div class="panel-body">
+                    <ul class="list-group" ng-show="isShow=='goods'">
+                        <li class="list-group-item"> <a href="#/goods">goods</a> </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+</div>

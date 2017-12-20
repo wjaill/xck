@@ -1,0 +1,40 @@
+<p class="text-info">banner列表：</p>
+
+<div class="banner-box">
+    <div class="row">
+        <div class="banner-img text-center  col-xs-3" ng-repeat="banner in banners">
+
+            <img class="img-thumbnail" ng-src="{{banner.imgurl}}" alt="">
+            <button ng-click="removeBanner(banner._id,$index)" class="btn btn-danger">删除</button>
+        </div>    
+    </div>
+</div>
+
+<hr>
+
+<button ng-click="isUploadShow=true" class="btn btn-primary">上传banner</button>
+<style>
+    .modal{
+        display: block;
+    }
+</style>
+<div class="modal" ng-show="isUploadShow">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button  ng-click="isUploadShow=false" type="button" class="close"><span>&times;</span></button>
+            <h4 class="modal-title">上传banner图片</h4>
+        </div>
+        <div class="modal-body">
+            <label for="">title：</label>
+            <input ng-model="title" type="text" class="form-control">
+            <label for="">url:</label>
+            <input class="uploadinp" type="file">
+        </div>
+        <div class="modal-footer">
+            <button  ng-click="isUploadShow=false" type="button" class="btn btn-default">Close</button>
+            <button ng-click="uploadImg()" type="button" class="btn btn-primary">上传</button>
+        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
